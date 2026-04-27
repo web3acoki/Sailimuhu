@@ -24,71 +24,97 @@ import { PhotographerSchedule } from "./pages/photographer/PhotographerSchedule"
 import { PhotographerReviews } from "./pages/photographer/PhotographerReviews";
 import { PhotographerProfile } from "./pages/photographer/PhotographerProfile";
 import { PhotographerOrderDetail } from "./pages/photographer/PhotographerOrderDetail";
+import { AppShell } from "./components/AppShell";
+import { OrderPickHub } from "./pages/pick/OrderPickHub";
+import { PickGrid } from "./pages/pick/PickGrid";
+import { PickPhotoDetail } from "./pages/pick/PickPhotoDetail";
+import { PickConfirm } from "./pages/pick/PickConfirm";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    Component: Layout,
+    Component: AppShell,
     children: [
-      { index: true, Component: Home },
-      { path: "map", Component: MapNavigate },
-      { path: "ai", Component: AIStudio },
-      { path: "profile", Component: Profile },
-      { path: "gallery", Component: Gallery },
-      { path: "notifications", Component: Notifications },
-      { path: "settings", Component: Settings },
-      { path: "search", Component: Search },
-      { path: "orders", Component: OrderList },
+      {
+        path: "/",
+        Component: Layout,
+        children: [
+          { index: true, Component: Home },
+          { path: "map", Component: MapNavigate },
+          { path: "ai", Component: AIStudio },
+          { path: "profile", Component: Profile },
+          { path: "gallery", Component: Gallery },
+          { path: "notifications", Component: Notifications },
+          { path: "settings", Component: Settings },
+          { path: "search", Component: Search },
+          { path: "orders", Component: OrderList },
+        ],
+      },
+      {
+        path: "/photographer/:id",
+        Component: PhotographerDetail,
+      },
+      {
+        path: "/payment/:orderId",
+        Component: Payment,
+      },
+      {
+        path: "/order/:orderId",
+        Component: OrderDetail,
+      },
+      {
+        path: "/order/:orderId/pick",
+        Component: OrderPickHub,
+      },
+      {
+        path: "/order/:orderId/pick/grid",
+        Component: PickGrid,
+      },
+      {
+        path: "/order/:orderId/pick/photo/:photoId",
+        Component: PickPhotoDetail,
+      },
+      {
+        path: "/order/:orderId/pick/confirm",
+        Component: PickConfirm,
+      },
+      {
+        path: "/post/:postId",
+        Component: PostDetail,
+      },
+      {
+        path: "/review/:orderId",
+        Component: Review,
+      },
+      {
+        path: "/photographer-apply",
+        Component: PhotographerApply,
+      },
+      {
+        path: "/photographer-center",
+        Component: PhotographerLayout,
+        children: [
+          { index: true, Component: PhotographerCenter },
+          { path: "orders", Component: PhotographerOrders },
+          { path: "revenue", Component: PhotographerRevenue },
+          { path: "profile", Component: PhotographerProfile },
+        ],
+      },
+      {
+        path: "/photographer/schedule",
+        Component: PhotographerSchedule,
+      },
+      {
+        path: "/photographer/reviews",
+        Component: PhotographerReviews,
+      },
+      {
+        path: "/photographer/order/:orderId",
+        Component: PhotographerOrderDetail,
+      },
+      {
+        path: "*",
+        Component: NotFound,
+      },
     ],
   },
-  {
-    path: "/photographer/:id",
-    Component: PhotographerDetail,
-  },
-  {
-    path: "/payment/:orderId",
-    Component: Payment,
-  },
-  {
-    path: "/order/:orderId",
-    Component: OrderDetail,
-  },
-  {
-    path: "/post/:postId",
-    Component: PostDetail,
-  },
-  {
-    path: "/review/:orderId",
-    Component: Review,
-  },
-  {
-    path: "/photographer-apply",
-    Component: PhotographerApply,
-  },
-  {
-    path: "/photographer-center",
-    Component: PhotographerLayout,
-    children: [
-      { index: true, Component: PhotographerCenter },
-      { path: "orders", Component: PhotographerOrders },
-      { path: "revenue", Component: PhotographerRevenue },
-      { path: "profile", Component: PhotographerProfile },
-    ],
-  },
-  {
-    path: "/photographer/schedule",
-    Component: PhotographerSchedule,
-  },
-  {
-    path: "/photographer/reviews",
-    Component: PhotographerReviews,
-  },
-  {
-    path: "/photographer/order/:orderId",
-    Component: PhotographerOrderDetail,
-  },
-  {
-    path: "*",
-    Component: NotFound,
-  }
 ]);
