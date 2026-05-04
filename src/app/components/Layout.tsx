@@ -1,9 +1,19 @@
-import { Outlet, NavLink } from "react-router";
+import { Outlet, NavLink, useLocation } from "react-router";
+import { useLayoutEffect, useRef } from "react";
 import { Home, Map, Sparkles, User } from "lucide-react";
 import { clsx } from "clsx";
 import { Toaster } from "sonner";
 
 export function Layout() {
+  const location = useLocation();
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  /** 子路由切换时把主滚动区回到顶部，避免从长列表底部点进新页只看到空白 */
+  useLayoutEffect(() => {
+    const el = mainRef.current;
+    if (el) el.scrollTop = 0;
+  }, [location.pathname]);
+
   const navItems = [
     { to: "/", icon: Home, label: "首页" },
     { to: "/map", icon: Map, label: "导航" },
@@ -15,7 +25,10 @@ export function Layout() {
     <div className="flex flex-col h-screen bg-gray-50 font-sans max-w-md mx-auto shadow-2xl relative overflow-hidden">
       <Toaster position="top-center" richColors />
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto pb-16 scrollbar-hide">
+      <main
+        ref={mainRef}
+        className="flex-1 overflow-y-auto pb-16 scrollbar-hide"
+      >
         <Outlet />
       </main>
 

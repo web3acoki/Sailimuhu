@@ -29,6 +29,10 @@ import { OrderPickHub } from "./pages/pick/OrderPickHub";
 import { PickGrid } from "./pages/pick/PickGrid";
 import { PickPhotoDetail } from "./pages/pick/PickPhotoDetail";
 import { PickConfirm } from "./pages/pick/PickConfirm";
+import { GalleryDay } from "./pages/GalleryDay";
+import { GalleryPhotoDetail } from "./pages/GalleryPhotoDetail";
+import { GalleryOrderConfirm } from "./pages/GalleryOrderConfirm";
+import { GalleryPay } from "./pages/GalleryPay";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +47,7 @@ export const router = createBrowserRouter([
           { path: "ai", Component: AIStudio },
           { path: "profile", Component: Profile },
           { path: "gallery", Component: Gallery },
+          { path: "gallery/day/:date", Component: GalleryDay },
           { path: "notifications", Component: Notifications },
           { path: "settings", Component: Settings },
           { path: "search", Component: Search },
@@ -76,6 +81,18 @@ export const router = createBrowserRouter([
       {
         path: "/order/:orderId/pick/confirm",
         Component: PickConfirm,
+      },
+      {
+        path: "/gallery/photo/:photoId",
+        Component: GalleryPhotoDetail,
+      },
+      {
+        path: "/gallery/order/:photoId",
+        Component: GalleryOrderConfirm,
+      },
+      {
+        path: "/gallery/pay/:photoId",
+        Component: GalleryPay,
       },
       {
         path: "/post/:postId",
