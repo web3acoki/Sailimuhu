@@ -80,27 +80,22 @@ export function PostDetail() {
       </div>
 
       {/* Author Info */}
-      <div className="px-5 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img
-            src={post.avatar}
-            alt={post.user}
-            className="w-12 h-12 rounded-full object-cover border border-gray-100"
-          />
-          <div>
-            <h3 className="text-sm font-medium text-gray-900">{post.user}</h3>
-            <div className="flex items-center gap-2 mt-0.5">
-              <p className="text-xs text-gray-500 flex items-center gap-1">
-                <MapPin className="w-3 h-3" /> {post.location}
-              </p>
-              <span className="text-xs text-gray-400">·</span>
-              <span className="text-xs text-gray-500">{post.publishTime}</span>
-            </div>
+      <div className="flex items-center gap-3 px-5 py-4">
+        <img
+          src={post.avatar}
+          alt={post.user}
+          className="h-12 w-12 rounded-full border border-gray-100 object-cover"
+        />
+        <div>
+          <h3 className="text-sm font-medium text-gray-900">{post.user}</h3>
+          <div className="mt-0.5 flex items-center gap-2">
+            <p className="flex items-center gap-1 text-xs text-gray-500">
+              <MapPin className="h-3 w-3" /> {post.location}
+            </p>
+            <span className="text-xs text-gray-400">·</span>
+            <span className="text-xs text-gray-500">{post.publishTime}</span>
           </div>
         </div>
-        <button className="px-4 py-1.5 text-xs font-medium text-primary border border-primary rounded-full hover:bg-blue-50">
-          关注
-        </button>
       </div>
 
       {/* Image Gallery */}

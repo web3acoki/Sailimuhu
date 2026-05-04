@@ -92,13 +92,12 @@ export function SaihuCircleSection() {
             [
               ["latest", "最新"],
               ["hot", "热门"],
-              ["following", "关注"],
             ] as const
           ).map(([value, label]) => (
             <TabsTrigger
               key={value}
               value={value}
-              className="rounded-none border-0 border-b-2 border-transparent data-[state=active]:border-gray-900 data-[state=active]:bg-transparent data-[state=active]:shadow-none bg-transparent shadow-none flex-none px-0 pb-2 text-sm text-gray-500 data-[state=active]:text-gray-900 data-[state=active]:font-bold"
+              className="flex-none rounded-none border-0 border-b-2 border-transparent bg-transparent px-3 py-2.5 text-[15px] text-gray-500 shadow-none transition-colors data-[state=active]:border-gray-900 data-[state=active]:bg-transparent data-[state=active]:font-semibold data-[state=active]:text-gray-900 data-[state=active]:shadow-none active:bg-gray-50"
             >
               {label}
             </TabsTrigger>
@@ -118,20 +117,17 @@ export function SaihuCircleSection() {
             ))}
           </Masonry>
         </TabsContent>
-        <TabsContent value="following" className="mt-0">
-          <Masonry columnsCount={2} gutter="10px">
-            {getPostsForTab("following").map((post) => (
-              <CirclePostCard key={post.id} post={post} />
-            ))}
-          </Masonry>
-        </TabsContent>
       </Tabs>
 
       <button
         type="button"
         aria-label="发布笔记"
         onClick={() => toast.message("发布功能敬请期待")}
-        className="fixed bottom-20 right-4 z-40 w-14 h-14 bg-gray-900 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-800 transition-colors"
+        className="fixed right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-gray-900 text-white shadow-lg transition-transform active:scale-95 active:bg-gray-800"
+        style={{
+          bottom:
+            "calc(3.5rem + env(safe-area-inset-bottom, 0px) + 0.75rem)",
+        }}
       >
         <Plus className="w-7 h-7" strokeWidth={2} />
       </button>

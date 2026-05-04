@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useLocation } from "react-router";
 import { useLayoutEffect, useRef } from "react";
-import { Home, Map, Sparkles, User } from "lucide-react";
+import { Home, Map, Image as ImageIcon, User } from "lucide-react";
 import { clsx } from "clsx";
 import { Toaster } from "sonner";
 
@@ -14,10 +14,21 @@ export function Layout() {
     if (el) el.scrollTop = 0;
   }, [location.pathname]);
 
-  const navItems = [
+  const navItems: {
+    to: string;
+    icon: typeof Home;
+    label: string;
+    isActive?: (pathname: string) => boolean;
+  }[] = [
     { to: "/", icon: Home, label: "首页" },
     { to: "/map", icon: Map, label: "导航" },
-    { to: "/ai", icon: Sparkles, label: "AI写真" },
+    {
+      to: "/gallery",
+      icon: ImageIcon,
+      label: "光影档案",
+      isActive: (pathname) =>
+        pathname === "/gallery" || pathname.startsWith("/gallery/"),
+    },
     { to: "/profile", icon: User, label: "我的" },
   ];
 
@@ -27,35 +38,50 @@ export function Layout() {
       {/* Main Content */}
       <main
         ref={mainRef}
-        className="flex-1 overflow-y-auto pb-16 scrollbar-hide"
+        className="scrollbar-hide flex-1 overflow-y-auto pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))]"
       >
         <Outlet />
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md border-t border-gray-100 flex justify-around items-center h-16 px-2 z-50">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.to}
-            to={item.to}
-            className={({ isActive }) =>
-              clsx(
-                "flex flex-col items-center justify-center w-16 h-full transition-colors",
-                isActive ? "text-primary" : "text-gray-400 hover:text-gray-600"
-              )
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <item.icon
-                  className={clsx("w-6 h-6 mb-1", isActive && "fill-primary/20")}
-                  strokeWidth={isActive ? 2.5 : 2}
-                />
-                <span className="text-[10px] font-medium">{item.label}</span>
-              </>
-            )}
-          </NavLink>
-        ))}
+      {/* 底部 Tab：对齐小程序习惯 — 固定栏、安全区、约 44px+ 热区、点击态 */}
+      <nav className="absolute inset-x-0 bottom-0 z-50 border-t border-gray-200/90 bg-[#F7F7F7]/95 pb-[env(safe-area-inset-bottom,0px)] backdrop-blur-md supports-[backdrop-filter]:bg-[#F7F7F7]/90">
+        <div className="flex h-14 items-stretch justify-around px-1">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === "/"}
+              className={({ isActive }) =>
+                clsx(
+                  "flex min-h-[48px] min-w-[3rem] flex-1 max-w-[5.5rem] flex-col items-center justify-center gap-0.5 rounded-lg transition-[color,transform,background-color] duration-150 active:scale-[0.97] active:bg-black/[0.05]",
+                  (item.isActive ? item.isActive(location.pathname) : isActive)
+                    ? "text-primary"
+                    : "text-gray-500 active:text-gray-700",
+                )
+              }
+            >
+              {({ isActive }) => {
+                const active = item.isActive
+                  ? item.isActive(location.pathname)
+                  : isActive;
+                return (
+                  <>
+                    <item.icon
+                      className={clsx(
+                        "mb-0.5 h-6 w-6 shrink-0",
+                        active && "fill-primary/15",
+                      )}
+                      strokeWidth={active ? 2.5 : 2}
+                    />
+                    <span className="text-[11px] font-medium leading-none">
+                      {item.label}
+                    </span>
+                  </>
+                );
+              }}
+            </NavLink>
+          ))}
+        </div>
       </nav>
     </div>
   );

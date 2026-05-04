@@ -1,250 +1,235 @@
 import { useState } from "react";
-import { ArrowLeft, Star, MapPin, CheckCircle2, ChevronRight, Info, Navigation } from "lucide-react";
-import { useNavigate, useParams } from "react-router";
+import {
+  ArrowLeft,
+  Camera,
+  CheckCircle2,
+  Heart,
+  MapPin,
+  Share2,
+  Star,
+} from "lucide-react";
+import { Link, useNavigate, useParams } from "react-router";
 import { clsx } from "clsx";
-import { format, addDays } from "date-fns";
-
-const PACKAGES = [
-  { id: 1, name: "单人·赛湖蓝冰精灵", price: 399, deposit: 99, desc: "包含1套服装/1小时拍摄/精修9张", type: "单人" },
-  { id: 2, name: "双人·漫步松树头", price: 599, deposit: 199, desc: "包含2套服装/2小时拍摄/精修15张", type: "双人" },
-];
-
-const LAKE_LOCATIONS = [
-  { id: 1, name: "克勒涌珠", segment: "1/10", distance: "5km", feature: "蓝冰秘境", icon: "🏔️", popular: true },
-  { id: 2, name: "松树头", segment: "2/10", distance: "12km", feature: "松林倒影", icon: "🌲", popular: true },
-  { id: 3, name: "西海天鹅栖息地", segment: "3/10", distance: "18km", feature: "天鹅湖", icon: "🦢", popular: false },
-  { id: 4, name: "成吉思汗点将台", segment: "4/10", distance: "25km", feature: "草原全景", icon: "🏛️", popular: false },
-  { id: 5, name: "三台海子", segment: "5/10", distance: "32km", feature: "高山湖泊", icon: "💧", popular: false },
-  { id: 6, name: "赛里木湖北门", segment: "6/10", distance: "38km", feature: "主入口", icon: "🎫", popular: true },
-  { id: 7, name: "东海湾", segment: "7/10", distance: "45km", feature: "日出圣地", icon: "🌅", popular: false },
-  { id: 8, name: "蒙古包度假村", segment: "8/10", distance: "52km", feature: "民族风情", icon: "⛺", popular: false },
-  { id: 9, name: "石头房子", segment: "9/10", distance: "58km", feature: "网红打卡", icon: "🏠", popular: true },
-  { id: 10, name: "南门观景台", segment: "10/10", distance: "65km", feature: "全景视角", icon: "📸", popular: false }
-];
+import {
+  type PhotographerWork,
+  getPhotographer,
+} from "../data/photographersMock";
 
 export function PhotographerDetail() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [selectedPkg, setSelectedPkg] = useState(PACKAGES[0]);
-  const [selectedDate, setSelectedDate] = useState(0); // 0 = today, 1 = tomorrow
-  const [selectedLocation, setSelectedLocation] = useState(LAKE_LOCATIONS[0]);
-
-  const dates = [
-    { label: "今天", date: new Date() },
-    { label: "明天", date: addDays(new Date(), 1) },
-    { label: format(addDays(new Date(), 2), "MM-dd"), date: addDays(new Date(), 2) },
-  ];
-
-  const handleBook = () => {
-    navigate(`/payment/order_12345?pkg=${selectedPkg.id}&location=${selectedLocation.id}`);
-  };
+  const photographer = getPhotographer(id);
+  const [tab, setTab] = useState<"works" | "notes">("works");
 
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
-      {/* Header */}
-      <div className="relative h-64">
-        <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-black/50 to-transparent z-10" />
-        <button onClick={() => navigate(-1)} className="absolute top-4 left-4 z-20 w-8 h-8 bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-white">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <img 
-          src="https://images.unsplash.com/photo-1762708550141-2688121b9ebd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwaG90b2dyYXBoZXIlMjBob2xkaW5nJTIwY2FtZXJhJTIwb3V0ZG9vcnxlbnwxfHx8fDE3NzcyNzg4NzV8MA&ixlib=rb-4.1.0&q=80&w=1080" 
-          alt="Photographer"
-          className="w-full h-full object-cover"
+      <div className="relative z-0 isolate h-56 overflow-hidden">
+        <img
+          src={photographer.cover}
+          alt={photographer.name}
+          className="pointer-events-none h-full w-full object-cover"
         />
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-28 bg-gradient-to-b from-black/45 to-transparent"
+          aria-hidden
+        />
+        <button
+          type="button"
+          onClick={() => navigate(-1)}
+          className="absolute left-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur"
+          aria-label="返回"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <button
+          type="button"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur"
+          aria-label="分享"
+        >
+          <Share2 className="h-5 w-5" />
+        </button>
       </div>
 
-      {/* Profile Info */}
-      <div className="bg-white px-5 py-4 rounded-b-3xl shadow-sm relative z-20 -mt-4">
-        <div className="flex justify-between items-start mb-2">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              王摄·风光专精
-              <CheckCircle2 className="w-4 h-4 text-green-500" />
+      <div className="relative z-10 -mt-16 rounded-t-2xl bg-gray-50 px-5 pb-1 pt-2 shadow-[0_-8px_24px_rgba(0,0,0,0.06)]">
+        <div className="flex items-end gap-3">
+          <img
+            src={photographer.avatar}
+            alt={photographer.name}
+            className="h-20 w-20 rounded-2xl border-4 border-white object-cover shadow-sm"
+          />
+          <div className="min-w-0 flex-1 pb-1">
+            <h1 className="flex items-center gap-1.5 text-lg font-bold text-gray-900">
+              <span className="truncate">{photographer.name}</span>
+              <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-primary" />
             </h1>
-            <p className="text-xs text-gray-500 mt-1 flex items-center gap-1">
-              <MapPin className="w-3 h-3" /> 常驻：赛里木湖北门 / 克勒涌珠
+            <p className="mt-1 flex items-center gap-1 text-xs text-gray-500">
+              <MapPin className="h-3 w-3" />
+              <span className="truncate">{photographer.region}</span>
+              <span className="text-gray-300">·</span>
+              <span>抓拍 · 约拍摄影师</span>
             </p>
           </div>
-          <div className="bg-accent/10 p-2 rounded-lg text-center">
-            <div className="flex items-center justify-center gap-1 text-accent">
-              <Star className="w-4 h-4 fill-accent" />
-              <span className="font-bold">4.9</span>
-            </div>
-            <span className="text-[10px] text-gray-500">342评价</span>
-          </div>
+          <button
+            type="button"
+            onClick={() => navigate(`/photographer/${photographer.id}/book`)}
+            className="flex h-9 items-center gap-1.5 rounded-full bg-gray-900 px-4 text-sm text-white shadow-sm"
+          >
+            <Camera className="h-4 w-4" /> 约我拍摄
+          </button>
         </div>
 
-        <div className="flex flex-wrap gap-2 mt-4">
-          {["官方认证", "押金保障", "人脸核验通过", "爽约包退"].map(tag => (
-            <span key={tag} className="text-[10px] bg-blue-50 text-primary px-2 py-1 rounded border border-blue-100 flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3" /> {tag}
+        <p className="mt-3 line-clamp-2 text-xs text-gray-600">
+          {photographer.intro}
+        </p>
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          {photographer.specialty.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-md bg-gray-100 px-2.5 py-1 text-[11px] text-gray-700"
+            >
+              {tag}
             </span>
           ))}
         </div>
-      </div>
 
-      {/* Location Selection */}
-      <div className="mt-4 px-5">
-        <h2 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-          <span className="w-1 h-4 bg-primary rounded-full inline-block"></span>
-          选择拍摄位置
-          <span className="text-xs font-normal text-gray-500 ml-auto">环湖10个景点</span>
-        </h2>
-        <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-          {/* Selected Location Display */}
-          <div className="flex items-center gap-3 p-3 bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl border border-primary/20 mb-3">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-2xl shadow-sm">
-              {selectedLocation.icon}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="font-bold text-gray-900">{selectedLocation.name}</h3>
-                {selectedLocation.popular && (
-                  <span className="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-full">热门</span>
-                )}
-              </div>
-              <p className="text-xs text-gray-500 flex items-center gap-3 mt-0.5">
-                <span className="flex items-center gap-1">
-                  <Navigation className="w-3 h-3" /> {selectedLocation.distance}
-                </span>
-                <span>•</span>
-                <span>{selectedLocation.feature}</span>
-              </p>
-            </div>
-            <div className="text-xs font-medium text-primary bg-white px-2 py-1 rounded-full">
-              {selectedLocation.segment}
-            </div>
-          </div>
-
-          {/* Location List */}
-          <div className="max-h-64 overflow-y-auto scrollbar-hide space-y-2">
-            {LAKE_LOCATIONS.map((location) => (
-              <button
-                key={location.id}
-                onClick={() => setSelectedLocation(location)}
-                className={clsx(
-                  "w-full flex items-center gap-3 p-2.5 rounded-lg border transition-all",
-                  selectedLocation.id === location.id
-                    ? "border-primary bg-primary/5"
-                    : "border-gray-100 hover:border-gray-200 hover:bg-gray-50"
-                )}
-              >
-                <div className="w-8 h-8 bg-gray-50 rounded-full flex items-center justify-center text-lg flex-shrink-0">
-                  {location.icon}
-                </div>
-                <div className="flex-1 text-left min-w-0">
-                  <div className="flex items-center gap-2">
-                    <h4 className={clsx(
-                      "text-sm font-medium truncate",
-                      selectedLocation.id === location.id ? "text-primary" : "text-gray-900"
-                    )}>
-                      {location.name}
-                    </h4>
-                    {location.popular && (
-                      <span className="text-[9px] bg-red-500 text-white px-1.5 py-0.5 rounded-full flex-shrink-0">HOT</span>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-500">{location.feature}</p>
-                </div>
-                <div className="flex flex-col items-end gap-0.5 flex-shrink-0">
-                  <span className="text-[10px] text-gray-400">{location.segment}</span>
-                  <span className="text-[10px] text-gray-400">{location.distance}</span>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-3 p-2 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-xs text-blue-700 flex items-start gap-2">
-              <Info className="w-3 h-3 flex-shrink-0 mt-0.5" />
-              <span>摄影师会根据选择位置提前到达,请提前沟通确认集合时间</span>
-            </p>
-          </div>
+        <div className="mt-4 flex flex-wrap items-center gap-5">
+          <Stat value={photographer.rating.toFixed(1)} label="评分" />
+          <Stat value={formatCount(photographer.orders)} label="月售" />
         </div>
       </div>
 
-      {/* Package Selection */}
-      <div className="mt-4 px-5">
-        <h2 className="text-base font-bold text-gray-900 mb-3 flex items-center gap-2">
-          <span className="w-1 h-4 bg-primary rounded-full inline-block"></span>
-          选择服务套餐
-        </h2>
-        <div className="flex flex-col gap-3">
-          {PACKAGES.map((pkg) => (
-            <div 
-              key={pkg.id}
-              onClick={() => setSelectedPkg(pkg)}
-              className={clsx(
-                "border-2 rounded-xl p-4 transition-colors relative overflow-hidden bg-white",
-                selectedPkg.id === pkg.id ? "border-primary" : "border-gray-100"
-              )}
-            >
-              {selectedPkg.id === pkg.id && (
-                <div className="absolute top-0 right-0 bg-primary text-white text-[10px] px-2 py-1 rounded-bl-lg font-medium">
-                  已选
-                </div>
-              )}
-              <div className="flex justify-between items-start mb-1">
-                <h3 className="font-bold text-gray-900">{pkg.name}</h3>
-                <span className="text-red-500 font-bold text-lg"><span className="text-xs">¥</span>{pkg.price}</span>
-              </div>
-              <p className="text-xs text-gray-500">{pkg.desc}</p>
-            </div>
-          ))}
+      <div className="mt-5 border-b border-gray-200 px-5">
+        <div className="flex gap-6 text-sm">
+          <TabBtn active={tab === "works"} onClick={() => setTab("works")}>
+            作品 · 拍摄
+          </TabBtn>
+          <TabBtn active={tab === "notes"} onClick={() => setTab("notes")}>
+            动态 · 笔记
+          </TabBtn>
         </div>
       </div>
 
-      {/* Date & Time Selection */}
-      <div className="mt-4 px-5 bg-white p-4">
-        <h2 className="text-base font-bold text-gray-900 mb-3">选择档期</h2>
-        <div className="flex gap-3 mb-4">
-          {dates.map((d, i) => (
-            <button
-              key={i}
-              onClick={() => setSelectedDate(i)}
-              className={clsx(
-                "flex-1 py-2 rounded-lg border text-center transition-colors",
-                selectedDate === i ? "border-primary bg-primary/5 text-primary" : "border-gray-200 text-gray-600"
-              )}
-            >
-              <div className="text-xs font-medium">{d.label}</div>
-            </button>
-          ))}
-        </div>
-        
-        {/* Mock Time Slots */}
-        <div className="grid grid-cols-3 gap-2">
-          {["09:00", "11:00", "14:00", "16:00", "18:00"].map((time, i) => (
-            <button
-              key={time}
-              className={clsx(
-                "py-2 text-sm rounded border",
-                i === 2 ? "border-primary bg-primary text-white" : "border-gray-200 text-gray-600 bg-gray-50 hover:bg-gray-100"
-              )}
-            >
-              {time}
-            </button>
-          ))}
-          <button className="py-2 text-sm rounded border border-gray-100 text-gray-300 bg-gray-50 cursor-not-allowed">
-            已满
-          </button>
-        </div>
-      </div>
+      {tab === "works" ? (
+        <WorksGrid works={photographer.works} />
+      ) : (
+        <EmptyNotes />
+      )}
+    </div>
+  );
+}
 
-      {/* Bottom Bar */}
-      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-100 p-4 pb-safe flex items-center justify-between z-30">
-        <div>
-          <div className="text-xs text-gray-500 mb-0.5">预约定金 (尾款交付后结)</div>
-          <div className="text-red-500 font-bold text-xl"><span className="text-sm">¥</span>{selectedPkg.deposit}</div>
-        </div>
-        <button 
-          onClick={handleBook}
-          className="bg-primary text-white px-8 py-3 rounded-full font-medium shadow-lg shadow-primary/30 flex items-center gap-2"
-        >
-          立即预约 <ChevronRight className="w-4 h-4" />
-        </button>
+function Stat({ value, label }: { value: string | number; label: string }) {
+  return (
+    <div className="leading-tight">
+      <div className="text-base font-bold text-gray-900">{value}</div>
+      <div className="text-[11px] text-gray-500">{label}</div>
+    </div>
+  );
+}
+
+function TabBtn({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={clsx(
+        "relative pb-3 pt-2 transition-colors",
+        active ? "font-bold text-gray-900" : "text-gray-500",
+      )}
+    >
+      {children}
+      {active ? (
+        <span className="absolute bottom-0 left-1/2 h-0.5 w-6 -translate-x-1/2 rounded-full bg-primary" />
+      ) : null}
+    </button>
+  );
+}
+
+function WorksGrid({ works }: { works: PhotographerWork[] }) {
+  return (
+    <div className="px-5 pt-4">
+      <div className="columns-2 gap-3 [column-fill:_balance]">
+        {works.map((w) => (
+          <WorkCard key={w.id} work={w} />
+        ))}
       </div>
     </div>
   );
+}
+
+function WorkCard({ work }: { work: PhotographerWork }) {
+  return (
+    <Link
+      to={`/post/${work.id}`}
+      className="mb-3 block break-inside-avoid overflow-hidden rounded-xl bg-white shadow-sm"
+    >
+      <div className="relative">
+        <img
+          src={work.cover}
+          alt={work.title}
+          loading="lazy"
+          decoding="async"
+          className="block w-full"
+        />
+        {work.pinned ? (
+          <span className="absolute left-2 top-2 rounded bg-white/90 px-1.5 py-0.5 text-[10px] font-medium text-accent shadow-sm">
+            精选
+          </span>
+        ) : null}
+      </div>
+      <div className="p-2.5">
+        <h4 className="line-clamp-2 text-xs font-medium leading-tight text-gray-900">
+          {work.title}
+        </h4>
+        {work.topics.length ? (
+          <div className="mt-1 flex flex-wrap gap-x-1 gap-y-0.5">
+            {work.topics.map((t) => (
+              <span key={t} className="text-[10px] text-primary">
+                #{t}
+              </span>
+            ))}
+          </div>
+        ) : null}
+        <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-400">
+          <span className="flex items-center gap-0.5 truncate">
+            <MapPin className="h-2.5 w-2.5 flex-shrink-0" />
+            <span className="truncate">{work.location}</span>
+          </span>
+          <span className="flex flex-shrink-0 items-center gap-0.5">
+            <Heart className="h-2.5 w-2.5" />
+            {formatCount(work.likes)}
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function EmptyNotes() {
+  return (
+    <div className="flex flex-col items-center justify-center px-5 py-20 text-center">
+      <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+        <Star className="h-6 w-6" />
+      </div>
+      <p className="text-sm text-gray-500">暂无笔记</p>
+      <p className="mt-1 text-xs text-gray-400">
+        摄影师还没有发布动态，先去看看作品吧～
+      </p>
+    </div>
+  );
+}
+
+function formatCount(n: number): string {
+  if (n >= 10000) return `${(n / 10000).toFixed(1).replace(/\.0$/, "")}w`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1).replace(/\.0$/, "")}k`;
+  return String(n);
 }

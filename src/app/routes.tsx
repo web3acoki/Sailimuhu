@@ -2,15 +2,14 @@ import { createBrowserRouter } from "react-router";
 import { Layout } from "./components/Layout";
 import { Home } from "./pages/Home";
 import { MapNavigate } from "./pages/MapNavigate";
-import { AIStudio } from "./pages/AIStudio";
 import { Profile } from "./pages/Profile";
 import { PhotographerDetail } from "./pages/PhotographerDetail";
+import { PhotographerBooking } from "./pages/PhotographerBooking";
 import { Payment } from "./pages/Payment";
 import { OrderList } from "./pages/OrderList";
 import { OrderDetail } from "./pages/OrderDetail";
 import { PostDetail } from "./pages/PostDetail";
 import { Gallery } from "./pages/Gallery";
-import { Notifications } from "./pages/Notifications";
 import { Settings } from "./pages/Settings";
 import { Search } from "./pages/Search";
 import { Review } from "./pages/Review";
@@ -44,11 +43,9 @@ export const router = createBrowserRouter([
         children: [
           { index: true, Component: Home },
           { path: "map", Component: MapNavigate },
-          { path: "ai", Component: AIStudio },
           { path: "profile", Component: Profile },
           { path: "gallery", Component: Gallery },
           { path: "gallery/day/:date", Component: GalleryDay },
-          { path: "notifications", Component: Notifications },
           { path: "settings", Component: Settings },
           { path: "search", Component: Search },
           { path: "orders", Component: OrderList },
@@ -57,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "/photographer/:id",
         Component: PhotographerDetail,
+      },
+      {
+        path: "/photographer/:id/book",
+        Component: PhotographerBooking,
       },
       {
         path: "/payment/:orderId",

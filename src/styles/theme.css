@@ -124,10 +124,6 @@
     @apply border-border outline-ring/50;
   }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-
   /**
   * Default typography styles for HTML elements (h1-h4, p, label, button, input).
   * These are in @layer base, so Tailwind utility classes (like text-sm, text-lg) automatically override them.
@@ -135,6 +131,22 @@
 
   html {
     font-size: var(--font-size);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      -apple-system,
+      BlinkMacSystemFont,
+      "PingFang SC",
+      "PingFang TC",
+      "Helvetica Neue",
+      Helvetica,
+      "Microsoft YaHei",
+      ui-sans-serif,
+      system-ui,
+      sans-serif;
   }
 
   h1 {

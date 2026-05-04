@@ -9,20 +9,26 @@ export function Gallery() {
   return (
     <div className="min-h-screen bg-gray-50 pb-6">
       {/* Header */}
-      <div className="bg-white px-5 py-4 flex items-center justify-between shadow-sm sticky top-0 z-10">
-        <div className="flex items-center gap-3">
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-100 bg-white/95 px-4 py-2 shadow-sm backdrop-blur-sm pt-[max(0.5rem,env(safe-area-inset-top))]">
+        <div className="flex min-w-0 flex-1 items-center gap-1">
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="text-gray-700"
+            className="-m-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-gray-700 transition-colors active:bg-gray-100"
             aria-label="返回"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="h-6 w-6" />
           </button>
-          <h1 className="text-lg font-bold text-gray-900">赛里木湖·光影档案</h1>
+          <h1 className="truncate text-[17px] font-semibold text-gray-900">
+            赛里木湖·光影档案
+          </h1>
         </div>
-        <button type="button" className="text-gray-700" aria-label="切换视图">
-          <List className="w-5 h-5" />
+        <button
+          type="button"
+          className="-m-1 flex h-11 w-11 items-center justify-center rounded-lg text-gray-700 transition-colors active:bg-gray-100"
+          aria-label="切换视图"
+        >
+          <List className="h-5 w-5" />
         </button>
       </div>
 

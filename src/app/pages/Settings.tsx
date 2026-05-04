@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, User, Bell, Lock, HelpCircle, FileText, LogOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, User, Lock, HelpCircle, FileText, LogOut } from "lucide-react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -18,13 +18,6 @@ export function Settings() {
       items: [
         { icon: User, label: "个人信息", value: "186****3948", action: "profile" },
         { icon: Lock, label: "账号安全", value: "修改密码", action: "security" }
-      ]
-    },
-    {
-      title: "通知设置",
-      items: [
-        { icon: Bell, label: "消息通知", value: "已开启", action: "notifications" },
-        { icon: Bell, label: "推送设置", value: "仅重要消息", action: "push" }
       ]
     },
     {

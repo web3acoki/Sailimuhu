@@ -1,4 +1,4 @@
-export type CircleTab = "latest" | "hot" | "following";
+export type CircleTab = "latest" | "hot";
 
 export type CirclePost = {
   id: number;
@@ -11,7 +11,6 @@ export type CirclePost = {
   /** Tailwind height class for masonry variety */
   imageHeightClass: string;
   tag?: string;
-  following?: boolean;
 };
 
 /** 赛湖圈子配图：湖泊、草原、旅拍人像等（与 mock 文案场景一致，可整批替换） */
@@ -28,7 +27,6 @@ export const CIRCLE_POSTS: CirclePost[] = [
     location: "克勒涌珠",
     imageHeightClass: "h-44",
     tag: "#蓝冰季",
-    following: true,
   },
   {
     id: 2,
@@ -41,7 +39,6 @@ export const CIRCLE_POSTS: CirclePost[] = [
     likes: 891,
     location: "松树头",
     imageHeightClass: "h-56",
-    following: true,
   },
   {
     id: 3,
@@ -55,7 +52,6 @@ export const CIRCLE_POSTS: CirclePost[] = [
     location: "点将台",
     imageHeightClass: "h-52",
     tag: "#环湖",
-    following: false,
   },
   {
     id: 4,
@@ -69,7 +65,6 @@ export const CIRCLE_POSTS: CirclePost[] = [
     location: "月亮湾",
     imageHeightClass: "h-48",
     tag: "#约拍返图",
-    following: false,
   },
   {
     id: 5,
@@ -83,7 +78,6 @@ export const CIRCLE_POSTS: CirclePost[] = [
     location: "亲水滩",
     imageHeightClass: "h-60",
     tag: "#摄影教程",
-    following: true,
   },
   {
     id: 6,
@@ -96,7 +90,6 @@ export const CIRCLE_POSTS: CirclePost[] = [
     likes: 223,
     location: "果子沟",
     imageHeightClass: "h-40",
-    following: false,
   },
 ];
 
@@ -104,9 +97,6 @@ export function getPostsForTab(tab: CircleTab): CirclePost[] {
   const list = [...CIRCLE_POSTS];
   if (tab === "hot") {
     return list.sort((a, b) => b.likes - a.likes);
-  }
-  if (tab === "following") {
-    return list.filter((p) => p.following);
   }
   return list.sort((a, b) => a.id - b.id);
 }

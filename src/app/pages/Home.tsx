@@ -1,22 +1,22 @@
-import { MapPin, Image as ImageIcon, Sparkles, Search, Bell } from "lucide-react";
+import { MapPin, Image as ImageIcon, Search } from "lucide-react";
 import { Link } from "react-router";
 import { SaihuCircleSection } from "../components/home/SaihuCircleSection";
 
 export function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
-      {/* Top Bar */}
-      <div className="bg-white/90 backdrop-blur-md px-5 py-3 flex items-center justify-between sticky top-0 z-10 shadow-sm">
-        <h1 className="text-xl font-bold text-gray-900">赛湖镜界</h1>
-        <div className="flex gap-3">
-          <Link to="/search" className="text-gray-700 hover:text-primary">
-            <Search className="w-6 h-6" />
-          </Link>
-          <Link to="/notifications" className="text-gray-700 hover:text-primary relative">
-            <Bell className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full flex items-center justify-center text-[8px] text-white font-bold">2</span>
-          </Link>
-        </div>
+    <div className="min-h-screen bg-gray-50 pb-4">
+      {/* 顶栏：刘海安全区 + 44px 级点击热区（类小程序导航） */}
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-100 bg-white/95 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))] shadow-sm backdrop-blur-md supports-[backdrop-filter]:bg-white/90">
+        <h1 className="text-[17px] font-semibold leading-tight tracking-tight text-gray-900">
+          赛湖镜界
+        </h1>
+        <Link
+          to="/search"
+          className="-m-1 flex h-11 w-11 items-center justify-center rounded-lg text-gray-700 transition-colors active:bg-gray-100"
+          aria-label="搜索"
+        >
+          <Search className="h-6 w-6" />
+        </Link>
       </div>
 
       {/* Header / Banner */}
@@ -44,26 +44,26 @@ export function Home() {
         </div>
       </div>
 
-      {/* Quick Entries */}
-      <div className="px-5 -mt-6 relative z-10">
-        <div className="bg-white rounded-2xl shadow-lg shadow-gray-200/50 p-4 grid grid-cols-3 gap-4 border border-gray-100">
-          <Link to="/map" className="flex flex-col items-center justify-center gap-2 group">
-            <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors text-primary">
-              <MapPin className="w-6 h-6" />
+      {/* 快捷入口：16px 边距、整块可点、点击态 */}
+      <div className="relative z-10 -mt-6 px-4">
+        <div className="grid grid-cols-2 gap-3 rounded-2xl border border-gray-100 bg-white p-3 shadow-lg shadow-gray-200/40">
+          <Link
+            to="/map"
+            className="flex flex-col items-center justify-center gap-2 rounded-xl py-3 transition-transform active:scale-[0.98] active:bg-gray-50"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-primary transition-colors">
+              <MapPin className="h-6 w-6" />
             </div>
-            <span className="text-xs font-medium text-gray-700">开启环湖</span>
+            <span className="text-[13px] font-medium text-gray-800">开启环湖</span>
           </Link>
-          <Link to="/gallery" className="flex flex-col items-center justify-center gap-2 group">
-            <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors text-accent">
-              <ImageIcon className="w-6 h-6" />
+          <Link
+            to="/gallery"
+            className="flex flex-col items-center justify-center gap-2 rounded-xl py-3 transition-transform active:scale-[0.98] active:bg-gray-50"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-50 text-accent transition-colors">
+              <ImageIcon className="h-6 w-6" />
             </div>
-            <span className="text-xs font-medium text-gray-700">光影档案</span>
-          </Link>
-          <Link to="/ai" className="flex flex-col items-center justify-center gap-2 group">
-            <div className="w-12 h-12 rounded-full bg-purple-50 flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition-colors text-purple-500">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <span className="text-xs font-medium text-gray-700">AI写真馆</span>
+            <span className="text-[13px] font-medium text-gray-800">光影档案</span>
           </Link>
         </div>
       </div>

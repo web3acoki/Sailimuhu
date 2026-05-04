@@ -1,11 +1,11 @@
-import { Settings, ChevronRight, FileImage, CreditCard, Award, HelpCircle, Camera, RefreshCw } from "lucide-react";
+import { Settings, ChevronRight, FileImage, CreditCard, Award, HelpCircle, Camera } from "lucide-react";
 import { Link } from "react-router";
 
 export function Profile() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Profile Info */}
-      <div className="bg-white px-5 pt-10 pb-6 rounded-b-3xl shadow-sm relative overflow-hidden">
+      <div className="relative overflow-hidden rounded-b-3xl bg-white px-5 pb-6 pt-[max(2.5rem,env(safe-area-inset-top,0px)+1.5rem)] shadow-sm">
         {/* Decorative pattern */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-bl-full pointer-events-none" />
 
@@ -13,9 +13,10 @@ export function Profile() {
           {/* Switch to Photographer Mode Button */}
           <Link
             to="/photographer-center"
-            className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent text-white shadow-lg flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent text-white shadow-lg transition-transform active:scale-95"
+            aria-label="摄影师工作台"
           >
-            <Camera className="w-6 h-6" />
+            <Camera className="h-6 w-6" />
           </Link>
 
           <div className="w-16 h-16 rounded-full bg-gray-200 border-2 border-white shadow-md flex items-center justify-center text-gray-500 overflow-hidden">
@@ -27,39 +28,20 @@ export function Profile() {
           </div>
           <div className="flex-1">
             <h1 className="text-xl font-bold text-gray-900">186****3948</h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded border border-primary/20 flex items-center gap-1 font-medium">
-                <Award className="w-3 h-3" /> 赛湖初见
-              </span>
-              <span className="text-xs text-gray-500">Lv.1</span>
-            </div>
           </div>
-          <Link to="/settings" className="text-gray-400 hover:text-gray-600">
-            <Settings className="w-5 h-5" />
+          <Link
+            to="/settings"
+            className="-m-1 flex h-11 w-11 items-center justify-center rounded-lg text-gray-500 transition-colors active:bg-gray-100"
+            aria-label="设置"
+          >
+            <Settings className="h-6 w-6" />
           </Link>
         </div>
 
-        {/* Stats */}
-        <div className="flex justify-between mt-6 px-4">
-          <div className="text-center">
-            <div className="font-bold text-gray-900">0</div>
-            <div className="text-xs text-gray-500 mt-1">关注摄影师</div>
-          </div>
-          <div className="w-px h-8 bg-gray-100" />
-          <div className="text-center">
-            <div className="font-bold text-gray-900">3</div>
-            <div className="text-xs text-gray-500 mt-1">打卡足迹</div>
-          </div>
-          <div className="w-px h-8 bg-gray-100" />
-          <div className="text-center">
-            <div className="font-bold text-gray-900">12</div>
-            <div className="text-xs text-gray-500 mt-1">获赞</div>
-          </div>
-        </div>
       </div>
 
       {/* Main Menu */}
-      <div className="px-5 mt-6 space-y-4 pb-24">
+      <div className="mt-6 space-y-4 px-5 pb-4">
         <div className="bg-white rounded-2xl p-4 shadow-sm">
           <h2 className="text-sm font-bold text-gray-800 mb-3">我的服务</h2>
           <div className="grid grid-cols-4 gap-4">
